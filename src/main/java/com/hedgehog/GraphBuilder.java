@@ -11,7 +11,8 @@ public class GraphBuilder {
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[0].length; j++) {
                 var node = create(i, j, endPoint,
-                    grid.length - 1, grid[0].length - 1, grid);
+                    grid.length - 1, grid[0].length - 1, grid,
+                    null);
                 nodes.add(node);
             }
         }
@@ -20,19 +21,25 @@ public class GraphBuilder {
     }
 
     protected Node create(int i, int j, Coordinate endPoint,
-                          int maxI, int maxJ, Integer[][] grid) {
+                          int maxI, int maxJ, Integer[][] grid,
+                          Node previous) {
         Coordinate current = new Coordinate(i, j);
         var heuristicDistance = current.getDistanceTo(endPoint);
-        Set<Node> neighbours = new HashSet<>();
+        var value = grid[i][j];
+
+        int previousDistanceFromStart = previous == null ? 0 : previous.distanceFromStart();
+        var currentNode = new Node(value + previousDistanceFromStart,
+            heuristicDistance, new HashSet<>(), current, previous);
+
         if (i < maxI) {
-            Node bottomNeighbour = create(i + 1, j, endPoint, maxI, maxJ, grid);
-            neighbours.add(bottomNeighbour);
+            Node bottomNeighbour = create(i + 1, j, endPoint, maxI, maxJ, grid, currentNode);
+            currentNode.neighbours().add(bottomNeighbour);
         }
         if (j < maxJ) {
-            Node rightNeighbour = create(i, j + 1, endPoint, maxI, maxJ, grid);
-            neighbours.add(rightNeighbour);
+            Node rightNeighbour = create(i, j + 1, endPoint, maxI, maxJ, grid, currentNode);
+            currentNode.neighbours().add(rightNeighbour);
         }
 
-        return new Node(heuristicDistance, neighbours, current, grid[i][j]);
+        return currentNode;
     }
 }
