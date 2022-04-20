@@ -59,4 +59,32 @@ class GraphBuilderTest {
 
         assertThat(actual, is(expected));
     }
+
+    @Test
+    void buildFrom_graphContainsSeveralNodesForSameCoordinate() {
+        int heuristicDistance = 2;
+        var nodeA = new Node(1, heuristicDistance, new HashSet<>(), new Coordinate(0, 0),
+            null);
+        Node nodeAB = new Node(3, 1, new HashSet<>(), new Coordinate(0, 1), nodeA);
+        nodeAB.neighbours().add(new Node(7, 0, new HashSet<>(), new Coordinate(1, 1), nodeAB));
+        nodeA.neighbours().add(nodeAB);
+        Node nodeAC = new Node(4, 1, new HashSet<>(), new Coordinate(1, 0), nodeA);
+        nodeAC.neighbours().add(new Node(8, 0, new HashSet<>(), new Coordinate(1, 1), nodeAC));
+        nodeA.neighbours().add(nodeAC);
+
+        var nodeB = new Node(2, 1, new HashSet<>(), new Coordinate(0, 1), null);
+        nodeB.neighbours().add(new Node(6, 0, new HashSet<>(), new Coordinate(1, 1), nodeB));
+
+        var nodeC = new Node(3, 1, new HashSet<>(), new Coordinate(1, 0), null);
+        nodeC.neighbours().add(new Node(7, 0, new HashSet<>(), new Coordinate(1, 1), nodeC));
+
+        var nodeD = new Node(4, 0, new HashSet<>(), new Coordinate(1, 1), null);
+
+        var nodes = Set.of(nodeA, nodeB, nodeC, nodeD);
+        var expected = new Graph(nodes);
+
+        var actual = builder.buildFrom(new Integer[][]{{1, 2}, {3, 4}});
+
+        assertThat(actual, is(expected));
+    }
 }
