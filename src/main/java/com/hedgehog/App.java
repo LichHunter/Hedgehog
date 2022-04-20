@@ -10,7 +10,13 @@ public class App {
         var inputFile = args[0];
         var outputFile = args[1];
 
-        var grid = new FileReader().readFile(inputFile);
-
+        var optionalGrid = new FileReader().readFile(inputFile);
+        if (optionalGrid.isPresent()) {
+            var grid = optionalGrid.get();
+            var graph = new GraphBuilder().buildFrom(grid);
+        } else {
+            log.warn("Was not able to get grid from file");
+        }
     }
+
 }
