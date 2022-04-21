@@ -1,5 +1,6 @@
 package com.hedgehog;
 
+import com.hedgehog.pojo.Coordinate;
 import com.hedgehog.pojo.Node;
 import com.hedgehog.util.GraphBuilder;
 import com.hedgehog.util.GridReader;
@@ -35,14 +36,14 @@ public class App {
         Map<Coordinate, Node> open = new HashMap<>();
         Set<Node> closed = new HashSet<>();
 
-        open.put(start.coordinate(), start);
+        open.put(start.getCoordinate(), start);
 
         PathFinder<Node> pathFinder = new AStar<>(open, closed);
 
         Node bestPath = pathFinder.findBestPath(start, end);
         log.info(bestPath);
 
-        saveToFile(outputFilePath, bestPath.distanceFromStart());
+        saveToFile(outputFilePath, bestPath.getDistanceFromStart());
     }
 
     private static void saveToFile(String outputFilePath, Integer distanceFromStart) {

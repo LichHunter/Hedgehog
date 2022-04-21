@@ -1,12 +1,15 @@
 package com.hedgehog.pojo;
 
-import com.hedgehog.Coordinate;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.util.Set;
 
+@Data
+@AllArgsConstructor
 public class Node {
     private final int distanceFromStart;
     private final int heuristicDistance;
@@ -14,39 +17,9 @@ public class Node {
     private final Coordinate coordinate;
     private final Node previous;
 
-    public Node(int distanceFromStart, int heuristicDistance, Set<Node> neighbours,
-                Coordinate coordinate, Node previous) {
-        this.distanceFromStart = distanceFromStart;
-        this.heuristicDistance = heuristicDistance;
-        this.neighbours = neighbours;
-        this.coordinate = coordinate;
-        this.previous = previous;
-    }
-
     public int getF() {
         return heuristicDistance + distanceFromStart;
     }
-
-    public int distanceFromStart() {
-        return distanceFromStart;
-    }
-
-    public int heuristicDistance() {
-        return heuristicDistance;
-    }
-
-    public Set<Node> neighbours() {
-        return neighbours;
-    }
-
-    public Coordinate coordinate() {
-        return coordinate;
-    }
-
-    public Node previous() {
-        return previous;
-    }
-
 
     @Override
     public boolean equals(Object o) {

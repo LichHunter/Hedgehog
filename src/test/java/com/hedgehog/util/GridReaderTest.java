@@ -30,8 +30,7 @@ class GridReaderTest {
 
     @Test
     void readGridFromFile_emptyFile() {
-        var file = """
-            """;
+        var file = "" ;
         var reader = new InputStreamReader(new ByteArrayInputStream(file.getBytes(StandardCharsets.UTF_8)));
         assertThrows(FileIsEmptyException.class, () -> gridReader.readGridFromFile(reader));
     }
@@ -40,10 +39,7 @@ class GridReaderTest {
     void readGridFromFile_returnsData() throws IOException {
         var expected = new Integer[][]{{1}};
 
-        var file = """
-            1 1
-            1
-            """;
+        var file = "1 1\n1" ;
         var reader = new InputStreamReader(new ByteArrayInputStream(file.getBytes(StandardCharsets.UTF_8)));
         var actual = gridReader.readGridFromFile(reader);
         assertThat(actual, is(expected));
@@ -51,20 +47,14 @@ class GridReaderTest {
 
     @Test
     void readGridFromFile_invalidNumberOfColumns() {
-        var file = """
-            1 10
-            1
-            """;
+        var file = "1 10\n1" ;
         var reader = new InputStreamReader(new ByteArrayInputStream(file.getBytes(StandardCharsets.UTF_8)));
         assertThrows(InvalidNumberOfLinesException.class, () -> gridReader.readGridFromFile(reader));
     }
 
     @Test
     void readGridFromFile_invalidNumberOfRows() {
-        var file = """
-            10 3
-            1 2 3
-            """;
+        var file = "10 3\n 1 2 3" ;
         var reader = new InputStreamReader(new ByteArrayInputStream(file.getBytes(StandardCharsets.UTF_8)));
         assertThrows(InvalidNumberOfLinesException.class, () -> gridReader.readGridFromFile(reader));
     }
