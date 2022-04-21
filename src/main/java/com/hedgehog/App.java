@@ -12,42 +12,53 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @Log4j2
 public class App {
-    public static void main(String[] args) {
-        if (args.length != 2) {
-            throw new IllegalStateException("There must be only 2 input arguments");
-        }
-        var inputFilePath = args[0];
-        var outputFilePath = args[1];
 
+    public static final String INPUT_FILE_NAME = "input.txt" ;
+    public static final String OUTPUT_FILE_NAME = "output.txt" ;
+
+    public static void main(String[] args) {
         var grid = new GridReader()
-            .readGridFromFile(inputFilePath)
+            .readGridFromFile(new File(INPUT_FILE_NAME))
             .orElseThrow(() -> new RuntimeException("No grid was found"));
         var graph = new GraphBuilder().buildFrom(grid);
         var start = graph.getNodeByCoordinate(new Coordinate(0, 0));
         var end = graph.getNodeByCoordinate(new Coordinate(grid.length - 1, grid[0].length - 1));
 
-        Map<Coordinate, Node> open = new HashMap<>();
-        Set<Node> closed = new HashSet<>();
-
-        open.put(start.getCoordinate(), start);
-
-        PathFinder<Node> pathFinder = new AStar<>(open, closed);
-
-        Node bestPath = pathFinder.findBestPath(start, end);
+        Node bestPath = new BreadthFirstSearch(graph).findBestPath(start, end);
         log.info(bestPath);
 
-        saveToFile(outputFilePath, bestPath.getDistanceFromStart());
+        showPath(bestPath);
+        saveToFile(new File(OUTPUT_FILE_NAME), bestPath.getDistanceFromStart());
     }
 
-    private static void saveToFile(String outputFilePath, Integer distanceFromStart) {
-        var file = new File(outputFilePath);
+    private static void showPath(Node bestPath) {
+        List<String> buffer = new ArrayList<>();
+        var current = bestPath;
+        while (true) {
+            buffer.add(String.format("(%d:%d):%d",
+                current.getCoordinate().getY(),
+                current.getCoordinate().getX(),
+                current.getDistanceFromStart()));
+
+            var previous = current.getPrevious();
+            if (previous != null) {
+                current = previous;
+            } else {
+                break;
+            }
+        }
+        Collections.reverse(buffer);
+
+        log.info("Path: {}", String.join("->", buffer));
+    }
+
+    private static void saveToFile(File file, Integer distanceFromStart) {
         if (!file.exists()) {
             try {
                 Files.createFile(file.toPath());

@@ -6,17 +6,14 @@ import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.Reader;
+import java.io.*;
 import java.util.Optional;
 
 @Log4j2
 public class GridReader {
-    public Optional<Integer[][]> readGridFromFile(String pathToFile) {
+    public Optional<Integer[][]> readGridFromFile(File file) {
         try {
-            return Optional.of(readGridFromFile(new BufferedReader(new FileReader(pathToFile))));
+            return Optional.of(readGridFromFile(new BufferedReader(new FileReader(file))));
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             return Optional.empty();
