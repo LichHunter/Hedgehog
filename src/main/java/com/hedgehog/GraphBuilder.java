@@ -4,25 +4,23 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class GraphBuilder {
-    public Graph buildFrom(Integer[][] grid) {
+    public Graph<Node> buildFrom(Integer[][] grid) {
         Set<Node> nodes = new HashSet<>();
         var endPoint = new Coordinate(grid.length - 1, grid[0].length - 1);
 
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[0].length; j++) {
-                var node = create(i, j, endPoint,
-                    grid.length - 1, grid[0].length - 1, grid,
-                    null);
+                var node = create(i, j, endPoint, grid, null);
                 nodes.add(node);
             }
         }
 
-        return new Graph(nodes);
+        return new Graph<>(nodes);
     }
 
-    protected Node create(int i, int j, Coordinate endPoint,
-                          int maxI, int maxJ, Integer[][] grid,
-                          Node previous) {
+    protected Node create(int i, int j, Coordinate endPoint, Integer[][] grid, Node previous) {
+        int maxI = grid.length - 1;
+        int maxJ = grid[0].length - 1;
         Coordinate current = new Coordinate(i, j);
         var heuristicDistance = current.getDistanceTo(endPoint);
         var value = grid[i][j];
@@ -32,11 +30,11 @@ public class GraphBuilder {
             heuristicDistance, new HashSet<>(), current, previous);
 
         if (i < maxI) {
-            Node bottomNeighbour = create(i + 1, j, endPoint, maxI, maxJ, grid, currentNode);
+            Node bottomNeighbour = create(i + 1, j, endPoint, grid, currentNode);
             currentNode.neighbours().add(bottomNeighbour);
         }
         if (j < maxJ) {
-            Node rightNeighbour = create(i, j + 1, endPoint, maxI, maxJ, grid, currentNode);
+            Node rightNeighbour = create(i, j + 1, endPoint, grid, currentNode);
             currentNode.neighbours().add(rightNeighbour);
         }
 

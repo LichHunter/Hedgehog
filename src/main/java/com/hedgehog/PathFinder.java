@@ -5,11 +5,11 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public abstract class PathFinder {
-    protected Map<Coordinate, Node> open;
-    protected Set<Node> closed;
+public abstract class PathFinder<T extends Node> {
+    protected Map<Coordinate, T> open;
+    protected Set<T> closed;
 
-    protected PathFinder(Map<Coordinate, Node> open, Set<Node> closed) {
+    protected PathFinder(Map<Coordinate, T> open, Set<T> closed) {
         this.open = open;
         this.closed = closed;
     }
@@ -19,5 +19,5 @@ public abstract class PathFinder {
         this.closed = new HashSet<>();
     }
 
-    public abstract Node findBestPath(Node current, Node end);
+    public abstract T findBestPath(T current, T end);
 }
