@@ -3,18 +3,20 @@ package com.hedgehog;
 import com.hedgehog.pojo.Coordinate;
 import com.hedgehog.pojo.Node;
 
-import java.util.Comparator;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
-public class AStar<T extends Node> extends PathFinder<T> {
+public class AStar<T extends Node> implements PathFinder<T> {
+    protected Map<Coordinate, T> open;
+    protected Set<T> closed;
 
     public AStar(Map<Coordinate, T> open, Set<T> closed) {
-        super(open, closed);
+        this.open = open;
+        this.closed = closed;
     }
 
     public AStar() {
-        super();
+        this.open = new HashMap<>();
+        this.closed = new HashSet<>();
     }
 
     @Override
@@ -24,18 +26,18 @@ public class AStar<T extends Node> extends PathFinder<T> {
                 return (T) neighbour;
             }
 
-            T inOpen = super.open.get(neighbour.getCoordinate());
+            T inOpen = open.get(neighbour.getCoordinate());
             if (inOpen != null) {
                 if (neighbour.getF() > inOpen.getF()) {
-                    super.open.put(neighbour.getCoordinate(), (T) neighbour);
+                    open.put(neighbour.getCoordinate(), (T) neighbour);
                 }
             } else {
-                super.open.put(neighbour.getCoordinate(), (T) neighbour);
+                open.put(neighbour.getCoordinate(), (T) neighbour);
             }
         }
 
-        super.closed.add(current);
-        super.open.remove(current.getCoordinate());
+        closed.add(current);
+        open.remove(current.getCoordinate());
 
         T max = open.values()
             .stream()
