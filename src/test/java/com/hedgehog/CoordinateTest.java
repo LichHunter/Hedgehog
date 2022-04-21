@@ -1,5 +1,6 @@
 package com.hedgehog;
 
+import com.hedgehog.pojo.Coordinate;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;

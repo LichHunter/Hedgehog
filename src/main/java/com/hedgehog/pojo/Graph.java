@@ -1,17 +1,20 @@
 package com.hedgehog.pojo;
 
-import com.hedgehog.Coordinate;
 import com.hedgehog.exception.NoNodeFoundException;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
 import java.util.Set;
 
-public record Graph<T extends Node>(
-    Set<T> nodes
-) {
+@Data
+@AllArgsConstructor
+public class Graph<T extends Node> {
+    private Set<T> nodes;
+
     public T getNodeByCoordinate(Coordinate coordinate) {
         return nodes
             .stream()
-            .filter(node -> coordinate.equals(node.coordinate()))
+            .filter(node -> coordinate.equals(node.getCoordinate()))
             .findFirst()
             .orElseThrow(() -> new NoNodeFoundException("Nothing found for coordinate: " + coordinate));
     }

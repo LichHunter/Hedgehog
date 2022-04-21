@@ -1,5 +1,6 @@
 package com.hedgehog;
 
+import com.hedgehog.pojo.Coordinate;
 import com.hedgehog.pojo.Node;
 
 import java.util.HashMap;

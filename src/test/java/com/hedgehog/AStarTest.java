@@ -1,5 +1,6 @@
 package com.hedgehog;
 
+import com.hedgehog.pojo.Coordinate;
 import com.hedgehog.pojo.Node;
 import com.hedgehog.util.GraphBuilder;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -26,10 +27,10 @@ class AStarTest {
         var end = graph.getNodeByCoordinate(new Coordinate(grid.length - 1, grid[0].length - 1));
         Map<Coordinate, Node> open = new HashMap<>();
         Set<Node> closed = new HashSet<>();
-        open.put(start.coordinate(), start);
+        open.put(start.getCoordinate(), start);
 
         var actual = new AStar<>(open, closed).findBestPath(start, end);
-        assertThat(actual.distanceFromStart(), is(expected));
+        assertThat(actual.getDistanceFromStart(), is(expected));
     }
 
     private Integer[][] createGridFromString(String input) {

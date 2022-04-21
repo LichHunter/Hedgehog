@@ -1,5 +1,6 @@
 package com.hedgehog;
 
+import com.hedgehog.pojo.Coordinate;
 import com.hedgehog.pojo.Node;
 
 import java.util.Comparator;
@@ -18,23 +19,23 @@ public class AStar<T extends Node> extends PathFinder<T> {
 
     @Override
     public T findBestPath(T current, T end) {
-        for (Node neighbour : current.neighbours()) {
-            if (end.coordinate().equals(neighbour.coordinate())) {
+        for (Node neighbour : current.getNeighbours()) {
+            if (end.getCoordinate().equals(neighbour.getCoordinate())) {
                 return (T) neighbour;
             }
 
-            T inOpen = super.open.get(neighbour.coordinate());
+            T inOpen = super.open.get(neighbour.getCoordinate());
             if (inOpen != null) {
                 if (neighbour.getF() > inOpen.getF()) {
-                    super.open.put(neighbour.coordinate(), (T) neighbour);
+                    super.open.put(neighbour.getCoordinate(), (T) neighbour);
                 }
             } else {
-                super.open.put(neighbour.coordinate(), (T) neighbour);
+                super.open.put(neighbour.getCoordinate(), (T) neighbour);
             }
         }
 
         super.closed.add(current);
-        super.open.remove(current.coordinate());
+        super.open.remove(current.getCoordinate());
 
         T max = open.values()
             .stream()

@@ -1,6 +1,6 @@
 package com.hedgehog.util;
 
-import com.hedgehog.Coordinate;
+import com.hedgehog.pojo.Coordinate;
 import com.hedgehog.pojo.Graph;
 import com.hedgehog.pojo.Node;
 
@@ -29,17 +29,17 @@ public class GraphBuilder {
         var heuristicDistance = current.getDistanceTo(endPoint);
         var value = grid[i][j];
 
-        int previousDistanceFromStart = previous == null ? 0 : previous.distanceFromStart();
+        int previousDistanceFromStart = previous == null ? 0 : previous.getDistanceFromStart();
         var currentNode = new Node(value + previousDistanceFromStart,
             heuristicDistance, new HashSet<>(), current, previous);
 
         if (i < maxI) {
             Node bottomNeighbour = create(i + 1, j, endPoint, grid, currentNode);
-            currentNode.neighbours().add(bottomNeighbour);
+            currentNode.getNeighbours().add(bottomNeighbour);
         }
         if (j < maxJ) {
             Node rightNeighbour = create(i, j + 1, endPoint, grid, currentNode);
-            currentNode.neighbours().add(rightNeighbour);
+            currentNode.getNeighbours().add(rightNeighbour);
         }
 
         return currentNode;
