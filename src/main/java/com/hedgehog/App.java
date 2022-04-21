@@ -20,7 +20,7 @@ import java.util.Set;
 public class App {
     public static void main(String[] args) {
         if (args.length != 2) {
-            throw new IllegalStateException("There must be at least 2 input arguments");
+            throw new IllegalStateException("There must be only 2 input arguments");
         }
         var inputFilePath = args[0];
         var outputFilePath = args[1];
