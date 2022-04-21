@@ -1,5 +1,6 @@
-package com.hedgehog;
+package com.hedgehog.pojo;
 
+import com.hedgehog.Coordinate;
 import com.hedgehog.exception.NoNodeFoundException;
 
 import java.util.Set;

@@ -15,29 +15,29 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.junit.jupiter.api.Assertions.*;
 
-class FileReaderTest {
-    private FileReader fileReader;
+class GridReaderTest {
+    private GridReader gridReader;
 
     @BeforeEach
     void setUp() {
-        this.fileReader = new FileReader();
+        this.gridReader = new GridReader();
     }
 
     @Test
-    void readFile_noFile() {
-        assertThrows(NullPointerException.class, () -> fileReader.readFile((Reader) null));
+    void readGridFromFile_noFile() {
+        assertThrows(NullPointerException.class, () -> gridReader.readGridFromFile((Reader) null));
     }
 
     @Test
-    void readFile_emptyFile() {
+    void readGridFromFile_emptyFile() {
         var file = """
             """;
         var reader = new InputStreamReader(new ByteArrayInputStream(file.getBytes(StandardCharsets.UTF_8)));
-        assertThrows(FileIsEmptyException.class, () -> fileReader.readFile(reader));
+        assertThrows(FileIsEmptyException.class, () -> gridReader.readGridFromFile(reader));
     }
 
     @Test
-    void readFile_returnsData() throws IOException {
+    void readGridFromFile_returnsData() throws IOException {
         var expected = new Integer[][]{{1}};
 
         var file = """
@@ -45,44 +45,44 @@ class FileReaderTest {
             1
             """;
         var reader = new InputStreamReader(new ByteArrayInputStream(file.getBytes(StandardCharsets.UTF_8)));
-        var actual = fileReader.readFile(reader);
+        var actual = gridReader.readGridFromFile(reader);
         assertThat(actual, is(expected));
     }
 
     @Test
-    void readFile_invalidNumberOfColumns() {
+    void readGridFromFile_invalidNumberOfColumns() {
         var file = """
             1 10
             1
             """;
         var reader = new InputStreamReader(new ByteArrayInputStream(file.getBytes(StandardCharsets.UTF_8)));
-        assertThrows(InvalidNumberOfLinesException.class, () -> fileReader.readFile(reader));
+        assertThrows(InvalidNumberOfLinesException.class, () -> gridReader.readGridFromFile(reader));
     }
 
     @Test
-    void readFile_invalidNumberOfRows() {
+    void readGridFromFile_invalidNumberOfRows() {
         var file = """
             10 3
             1 2 3
             """;
         var reader = new InputStreamReader(new ByteArrayInputStream(file.getBytes(StandardCharsets.UTF_8)));
-        assertThrows(InvalidNumberOfLinesException.class, () -> fileReader.readFile(reader));
+        assertThrows(InvalidNumberOfLinesException.class, () -> gridReader.readGridFromFile(reader));
     }
 
     @Test
     void isEmpty_true() {
         var nums = new Integer[][]{{null, null}, {null, null}};
-        assertTrue(fileReader.isEmpty(nums));
+        assertTrue(gridReader.isEmpty(nums));
     }
 
     @Test
     void isEmpty_false() {
         var nums = new Integer[][]{{null, null}, {1, null}};
-        assertFalse(fileReader.isEmpty(nums));
+        assertFalse(gridReader.isEmpty(nums));
     }
 
     @Test
     void isEmpty_fromNullArray() {
-        assertTrue(fileReader.isEmpty(null));
+        assertTrue(gridReader.isEmpty(null));
     }
 }

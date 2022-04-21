@@ -1,6 +1,8 @@
-package com.hedgehog;
+package com.hedgehog.pojo;
 
+import com.hedgehog.Coordinate;
 import com.hedgehog.exception.NoNodeFoundException;
+import com.hedgehog.util.GraphBuilder;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;

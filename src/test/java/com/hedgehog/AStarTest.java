@@ -1,5 +1,7 @@
 package com.hedgehog;
 
+import com.hedgehog.pojo.Node;
+import com.hedgehog.util.GraphBuilder;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;

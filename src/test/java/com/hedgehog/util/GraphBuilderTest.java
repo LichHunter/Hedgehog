@@ -1,5 +1,8 @@
-package com.hedgehog;
+package com.hedgehog.util;
 
+import com.hedgehog.Coordinate;
+import com.hedgehog.pojo.Graph;
+import com.hedgehog.pojo.Node;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

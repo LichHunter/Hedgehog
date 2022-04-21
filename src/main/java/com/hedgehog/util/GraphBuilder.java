@@ -1,4 +1,8 @@
-package com.hedgehog;
+package com.hedgehog.util;
+
+import com.hedgehog.Coordinate;
+import com.hedgehog.pojo.Graph;
+import com.hedgehog.pojo.Node;
 
 import java.util.HashSet;
 import java.util.Set;

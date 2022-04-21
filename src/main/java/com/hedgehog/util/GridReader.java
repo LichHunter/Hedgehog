@@ -7,22 +7,23 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 
 import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.Optional;
 
 @Log4j2
-public class FileReader {
-    public Optional<Integer[][]> readFile(String pathToFile) {
+public class GridReader {
+    public Optional<Integer[][]> readGridFromFile(String pathToFile) {
         try {
-            return Optional.of(readFile(new BufferedReader(new java.io.FileReader(pathToFile))));
+            return Optional.of(readGridFromFile(new BufferedReader(new FileReader(pathToFile))));
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             return Optional.empty();
         }
     }
 
-    protected Integer[][] readFile(Reader reader)
+    protected Integer[][] readGridFromFile(Reader reader)
         throws IOException, InvalidNumberOfLinesException, FileIsEmptyException {
         try (var bufferedReader = new BufferedReader(reader)) {
             String firstLine = bufferedReader.readLine();
