@@ -18,15 +18,13 @@ import java.util.List;
 
 @Log4j2
 public class App {
-    public static void main(String[] args) {
-        if (args.length != 2) {
-            throw new IllegalStateException("There must be only 2 input arguments");
-        }
-        var inputFilePath = args[0];
-        var outputFilePath = args[1];
 
+    public static final String INPUT_FILE_NAME = "input.txt" ;
+    public static final String OUTPUT_FILE_NAME = "output.txt" ;
+
+    public static void main(String[] args) {
         var grid = new GridReader()
-            .readGridFromFile(inputFilePath)
+            .readGridFromFile(new File(INPUT_FILE_NAME))
             .orElseThrow(() -> new RuntimeException("No grid was found"));
         var graph = new GraphBuilder().buildFrom(grid);
         var start = graph.getNodeByCoordinate(new Coordinate(0, 0));
@@ -36,7 +34,7 @@ public class App {
         log.info(bestPath);
 
         showPath(bestPath);
-        saveToFile(outputFilePath, bestPath.getDistanceFromStart());
+        saveToFile(new File(OUTPUT_FILE_NAME), bestPath.getDistanceFromStart());
     }
 
     private static void showPath(Node bestPath) {
@@ -60,8 +58,7 @@ public class App {
         log.info("Path: {}", String.join("->", buffer));
     }
 
-    private static void saveToFile(String outputFilePath, Integer distanceFromStart) {
-        var file = new File(outputFilePath);
+    private static void saveToFile(File file, Integer distanceFromStart) {
         if (!file.exists()) {
             try {
                 Files.createFile(file.toPath());

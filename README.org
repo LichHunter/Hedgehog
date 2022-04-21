@@ -1,12 +1,17 @@
 * Hedgehog problem
-** Conditions
-Imagine the rectangular garden sized M x N. Garden consists of square zones with one appletree in each zone. There can be several apples under each tree. There is an hedgehog in upper left square of the garden. It moves to lower right corner with some restrictions:
-- The hedgehog only can move to the next right or to the next lower square. Please, make an application to count the max amount of apples the hedgehog can collect on its
-way.
-Tech conditions:
-- The garden plan is given as a table "apples" witch consists of M rows and N columns.
-- Table element apples[i,j] indicates a number of apples under the tree with coordinates i,j.
-- Text file "input.txt" structured in this way:
-    1. first row consist of numbers M and N separated with space
-    2. each of the next M rows consists of N values of apples[i,j] separated with space
-- File "output.txt" must contain one natural number (result of calculations).
+1. JDK 11
+2. Maven 3.8.1
+** Workflow
+'input.txt' file is expected to exist in the folder of the exection file.
+Input file must contain first row with numbers M and N separated with space and each of the next M rows must consists of N values of apples[i,j] separated with space.
+Example:
+3 3
+1 2 3
+4 5 6
+7 8 9
+The output file will contain  max amount of apples the hedgehog can collect on its way.
+For sample above ouput file will contain number 29
+** Algorithm
+For calculation of the best path that hedgehog could take was used Breadth-first search algorithm
+** Problems
+Tried to do my best to make code more manageable and easily expandable but I'm not sure I did it properly
